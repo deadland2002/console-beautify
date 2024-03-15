@@ -26,7 +26,9 @@ const DefaultSimpleConfig: SimpleConfig = {
     Type: "COMMON"
 }
 
-function log(data: any, config?: SimpleConfig): void {
+function log<T>(cb:CallableFunction , args ?: any[] , config?: SimpleConfig):T{
+    const functionName = cb.name || "ANONYMOUS";
+
     const formattedConfig = {
         ...DefaultSimpleConfig,
         ...config
@@ -37,37 +39,55 @@ function log(data: any, config?: SimpleConfig): void {
     if (formattedConfig.Type && Object.keys(SpecialType).includes(formattedConfig.Type)) {
         const color = SpecialType[formattedConfig.Type] || ColorDict.Reset;
         const formattedType = `${formattedConfig.Type}            `.substring(0,7)
-        console.log(`[ ${ColorDict[color]}${formattedType}${ColorDict.Reset} ] : ${time.toISOString()} : ${data}`);
+        console.log(`[ ${ColorDict[color]}${formattedType}${ColorDict.Reset} ] : ${time.toISOString()} : ${functionName}`);
     } else {
-        console.log(`${data}`);
+        console.log(`${functionName}`);
     }
+
+    return cb(...args??[]);
 }
 
-const success = (data: any) => {
+const success = (cb:CallableFunction , args ?: any[]) => {
+    const functionName = cb.name || "ANONYMOUS";
+
     const time = new Date();
     const formattedType = `SUCCESS            `.substring(0,7)
-    console.log(`[ ${ColorDict.Green}${formattedType}${ColorDict.Reset} ] : ${time.toISOString()} : ${data}`);
+    console.log(`[ ${ColorDict.Green}${formattedType}${ColorDict.Reset} ] : ${time.toISOString()} : ${functionName}`);
+
+    return cb(...args??[])
 }
 
-const error = (data: any) => {
+const error = (cb:CallableFunction , args ?: any[]) => {
+    const functionName = cb.name || "ANONYMOUS";
+
     const time = new Date();
     const formattedType = `ERROR            `.substring(0,7)
-    console.log(`[ ${ColorDict.Red}${formattedType}${ColorDict.Reset} ] : ${time.toISOString()} : ${data}`);
+    console.log(`[ ${ColorDict.Red}${formattedType}${ColorDict.Reset} ] : ${time.toISOString()} : ${functionName}`);
+
+    return cb(...args??[])
 }
 
-const info = (data: any) => {
+const info = (cb:CallableFunction , args ?: any[]) => {
+    const functionName = cb.name || "ANONYMOUS";
+
     const time = new Date();
     const formattedType = `INFO            `.substring(0,7)
-    console.log(`[ ${ColorDict.Blue}${formattedType}${ColorDict.Reset} ] : ${time.toISOString()} : ${data}`);
+    console.log(`[ ${ColorDict.Blue}${formattedType}${ColorDict.Reset} ] : ${time.toISOString()} : ${functionName}`);
+
+    return cb(...args??[])
 }
 
-const warn = (data: any) => {
+const warn = (cb:CallableFunction , args ?: any[]) => {
+    const functionName = cb.name || "ANONYMOUS";
+
     const time = new Date();
     const formattedType = `WARN            `.substring(0,7)
-    console.log(`[ ${ColorDict.Yellow}${formattedType}${ColorDict.Reset} ] : ${time.toISOString()} : ${data}`);
+    console.log(`[ ${ColorDict.Yellow}${formattedType}${ColorDict.Reset} ] : ${time.toISOString()} : ${functionName}`);
+
+    return cb(...args??[])
 }
 
-const simpleLog = {
+const functionLog = {
     success,
     log,
     error,
@@ -75,4 +95,4 @@ const simpleLog = {
     warn
 };
 
-export default simpleLog;
+export default functionLog;

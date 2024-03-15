@@ -10,8 +10,8 @@ const ColorDict: Record<string, string> = {
 };
 
 interface SimpleConfig {
-    Color?: "Red" | "Green" | "Yellow" | "Blue" | "Magenta" | "Cyan" | "White" | "Reset";
-    Type?: "SUCCESS" | "ERROR" | "INFO" | "WARN" | "COMMON";
+    Color: "Red" | "Green" | "Yellow" | "Blue" | "Magenta" | "Cyan" | "White" | "Reset";
+    Type: "SUCCESS" | "ERROR" | "INFO" | "WARN" | "COMMON";
 }
 
 const SpecialType: Record<string, string> = {
@@ -30,14 +30,14 @@ function log(data: any, config?: SimpleConfig): void {
     const formattedConfig = {
         ...DefaultSimpleConfig,
         ...config
-    }
+    }    
 
     const time = new Date();
 
     if (formattedConfig.Type && Object.keys(SpecialType).includes(formattedConfig.Type)) {
-        const color = SpecialType[formattedConfig.Type] || ColorDict.Reset;
+        const color = `${ColorDict[formattedConfig.Color] ?? ColorDict.Reset}`;
         const formattedType = `${formattedConfig.Type}            `.substring(0,7)
-        console.log(`[ ${ColorDict[color]}${formattedType}${ColorDict.Reset} ] : ${time.toISOString()} : ${data}`);
+        console.log(`[ ${ color }${formattedType}${ColorDict.Reset} ] : ${time.toISOString()} : ${data}`);
     } else {
         console.log(`${data}`);
     }
