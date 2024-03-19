@@ -49,7 +49,7 @@ SimpleLog.log("Default Log");
 
 ### Output
 
-![simpleLog]("/public/simpleLog.png")
+![simpleLog](https://github.com/deadland2002/console-beautify/blob/master/public/simpleLog.png)
 
 
 ### Customizations
