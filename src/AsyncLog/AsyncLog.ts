@@ -10,7 +10,7 @@ const SpecialType: Record<string, string> = {
 
 let userProvidedPath: string | undefined = undefined;
 
-const GetFormattedStr = (data: any, {type,delimiter}:{type?: string,delimiter?:string}={type:"COMMON",delimiter:":"}) => {
+const GetFormattedStr = (data: any, {type="DEFAULT",delimiter=":"}:{type?: string,delimiter?:string}) => {
     type = `${type}         `.substring(0, 10);
 
     const time = new Date();
