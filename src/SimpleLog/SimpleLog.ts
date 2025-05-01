@@ -1,3 +1,5 @@
+import { getConfig } from "../Config";
+
 const ColorDict: Record<string, string> = {
     Red: "\x1b[31m",
     Green: "\x1b[32m",
@@ -27,6 +29,13 @@ const DefaultSimpleConfig: SimpleConfig = {
 }
 
 function log(data: any, config?: SimpleConfig): void {
+    const globalConfig = getConfig()
+    
+    if(globalConfig.enabled === false){
+        if(globalConfig?.enabledSelected?.LOG) {}
+        else return
+    }
+
     const formattedConfig = {
         ...DefaultSimpleConfig,
         ...config
@@ -44,24 +53,49 @@ function log(data: any, config?: SimpleConfig): void {
 }
 
 const success = (data: any) => {
+    const config = getConfig()
+    
+    if(config.enabled === false){
+        if(config?.enabledSelected?.SUCCESS) {}
+        else return
+    }
     const time = new Date();
     const formattedType = `SUCCESS            `.substring(0,7)
     console.log(`[ ${ColorDict.Green}${formattedType}${ColorDict.Reset} ] : ${time.toISOString()} : ${data}`);
 }
 
 const error = (data: any) => {
+    const config = getConfig()
+    
+    if(config.enabled === false){
+        if(config?.enabledSelected?.ERROR) {}
+        else return
+    }
     const time = new Date();
     const formattedType = `ERROR            `.substring(0,7)
     console.log(`[ ${ColorDict.Red}${formattedType}${ColorDict.Reset} ] : ${time.toISOString()} : ${data}`);
 }
 
 const info = (data: any) => {
+    const config = getConfig()
+    
+    if(config.enabled === false){
+        if(config?.enabledSelected?.INFO) {}
+        else return
+    }
+    
     const time = new Date();
     const formattedType = `INFO            `.substring(0,7)
     console.log(`[ ${ColorDict.Blue}${formattedType}${ColorDict.Reset} ] : ${time.toISOString()} : ${data}`);
 }
 
 const warn = (data: any) => {
+    const config = getConfig()
+    
+    if(config.enabled === false){
+        if(config?.enabledSelected?.WARN) {}
+        else return
+    }
     const time = new Date();
     const formattedType = `WARN            `.substring(0,7)
     console.log(`[ ${ColorDict.Yellow}${formattedType}${ColorDict.Reset} ] : ${time.toISOString()} : ${data}`);

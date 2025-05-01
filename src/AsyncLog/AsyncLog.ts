@@ -1,3 +1,5 @@
+import { getConfig } from "../Config";
+
 const fs = require('fs').promises;
 const pathModule = require('path');
 
@@ -59,21 +61,51 @@ async function WriteToFile(data: any, {path, type,delimiter}:{path?:string,type?
 
 
 async function log(data: any, { path, type,delimiter }: { path?: string; type?: "SUCCESS" | "ERROR" | "INFO" | "WARN",delimiter?:string } = {}) {
+    const config = getConfig()
+       
+    if(config.enabled === false){
+        if(config?.enabledSelected?.LOG) {}
+        else return
+    }
     await WriteToFile(data, { path, type ,delimiter});
 }
 
 
 
 async function success(data: any,{path,delimiter}:{path ?: string,delimiter?:string}={}){
+    const config = getConfig()
+       
+    if(config.enabled === false){
+        if(config?.enabledSelected?.SUCCESS) {}
+        else return
+    }
     await WriteToFile(data, {type:"SUCCESS",path,delimiter})
 }
 async function warn(data: any,{path,delimiter}:{path ?: string,delimiter?:string}={}){
+    const config = getConfig()
+       
+    if(config.enabled === false){
+        if(config?.enabledSelected?.WARN) {}
+        else return
+    }
     await WriteToFile(data, {type:"WARN",path,delimiter})
 }
 async function info(data: any,{path,delimiter}:{path ?: string,delimiter?:string}={}){
+    const config = getConfig()
+       
+    if(config.enabled === false){
+        if(config?.enabledSelected?.INFO) {}
+        else return
+    }
     await WriteToFile(data, {type:"INFO",path,delimiter})
 }
 async function error(data: any,{path,delimiter}:{path ?: string,delimiter?:string}={}){
+    const config = getConfig()
+       
+    if(config.enabled === false){
+        if(config?.enabledSelected?.ERROR) {}
+        else return
+    }
     await WriteToFile(data, {type:"ERROR",path,delimiter})
 }
 
